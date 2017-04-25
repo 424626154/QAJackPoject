@@ -1,0 +1,12 @@
+{
+  "name": "QAJackPomelo",
+  "version": "0.0.1",
+  "private": false,
+  "dependencies": {
+    "pomelo": "2.2.5"
+  },
+  "devDependencies": {
+    "ioredis": "^2.5.0",
+    "mysql": "^2.13.0"
+  }
+}
