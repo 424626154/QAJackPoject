@@ -51,7 +51,8 @@ const enum EUI{
     Test,//测试页面
     Room,//房间
     Login,//登录
-    Register//注册
+    Register,//注册
+    CreateRoom//创建房间
 }
 
 /**玩家桌面位置 */

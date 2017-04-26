@@ -37,6 +37,11 @@
       "host": "127.0.0.1",
       "clientPort": 3014,
       "frontend": true
+    }],
+    "auth": [{
+      "id": "auth-server-1",
+      "host": "127.0.0.1",
+      "port": 3650
     }]
   },
   "production": {
@@ -77,6 +82,11 @@
       "host": "127.0.0.1",
       "clientPort": 3014,
       "frontend": true
+    }],
+    "auth": [{
+      "id": "auth-server-1",
+      "host": "127.0.0.1",
+      "port": 3650
     }]
   }
 }

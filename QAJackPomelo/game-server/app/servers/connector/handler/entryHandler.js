@@ -1,5 +1,6 @@
 var roomDao = require('../../../dao/roomDao');
 var Code = require('../../../../../shared/code');
+var userDao = require('../../../dao/userDao');
 var async = require('async');
 module.exports = function(app) {
 	return new Handler(app);

@@ -4,6 +4,9 @@ var utils = require('../util/utils');
 var dbclient = pomelo.app.get('dbclient');
 var Redis = require('ioredis');
 var redis = new Redis();
+
+
+
 /**
  *加入房间
  */

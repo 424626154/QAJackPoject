@@ -28,7 +28,15 @@ app.configure('production|development', function() {
 	// filter configures
 	app.filter(pomelo.timeout());
 });
-app.configure('production|development', 'room|connector', function() {
+
+// Configure for auth server
+app.configure('production|development', 'auth', function() {
+	// load session congfigures
+	app.set('session', require('./config/session.json'));
+});
+
+
+app.configure('production|development', 'room|auth|connector', function() {
 	var dbclient = require('./app/dao/mysql/mysql').init(app);
 	app.set('dbclient', dbclient);
 });

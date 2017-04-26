@@ -8,6 +8,7 @@ class User{
     money:number;
     userstate:UserState;
     serverstate:ServerState;
+    roomid:number;
     constructor(){
 
     }

@@ -1,0 +1,7 @@
+[2017-04-26 20:50:43.962] [ERROR] pomelo-rpc - [31m[mqtt-mailbox] [39mrpc connector-server-3 callback timeout 30000, remote server 0 host: 127.0.0.1, port: 3650
+[2017-04-26 20:50:43.963] [ERROR] pomelo-rpc - [31m[MailStation] [39m[pomelo-rpc] fail to send message Error: rpc connector-server-3 callback timeout 30000, remote server 0 host: 127.0.0.1, port: 3650
+    at Timeout.<anonymous> (/Users/bingbing/QAJackPoject/QAJackPomelo/game-server/node_modules/pomelo-rpc/lib/rpc-client/mailboxes/mqtt-mailbox.js:257:16)
+    at ontimeout (timers.js:365:14)
+    at tryOnTimeout (timers.js:237:5)
+    at Timer.listOnTimeout (timers.js:207:5)
+[2017-04-26 20:50:43.978] [ERROR] pomelo-rpc - [31m[failprocess] [39mrpc failed with error, remote server: auth-server-1, msg: {"namespace":"user","serverType":"auth","service":"authRemote","method":"auth","args":["e793c001f5f6fb67f166f13d42a8c26d"]}, error code: 5

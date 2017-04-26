@@ -7,7 +7,7 @@ var userDao = module.exports;
  * @param {function} cb
  */
 userDao.getUserByName = function(username, cb) {
-	var sql = 'select * from  user where name = ?';
+	var sql = 'select * from  User where name = ?';
 	var args = [username];
 	mysql.query(sql, args, function(err, res) {
 		if (err !== null) {
@@ -37,7 +37,7 @@ userDao.getUserByName = function(username, cb) {
  * @param {function} cb Call back function.
  */
 userDao.createUser = function(username, password, from, cb) {
-	var sql = 'insert into user (name,password,fromType,loginCount,lastLoginTime) values(?,?,?,?,?)';
+	var sql = 'insert into User (name,password,fromType,loginCount,lastLoginTime) values(?,?,?,?,?)';
 	var loginTime = Date.now();
 	var args = [username, password, from || '', 1, loginTime];
 	mysql.insert(sql, args, function(err, res) {

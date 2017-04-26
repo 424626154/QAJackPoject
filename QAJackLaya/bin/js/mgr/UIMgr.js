@@ -35,6 +35,10 @@ var UIMgr = (function () {
                 ui = new RegisterUI();
                 Laya.stage.addChild(ui);
                 break;
+            case 5 /* CreateRoom */:
+                ui = new CreateRoomUI();
+                Laya.stage.addChild(ui);
+                break;
         }
         if (ui != undefined) {
             UIMgr.pushUI(ui);

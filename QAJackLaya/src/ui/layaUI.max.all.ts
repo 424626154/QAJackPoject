@@ -31,6 +31,24 @@ module ui {
 }
 
 module ui {
+    export class createroomUI extends View {
+		public create:Laya.Button;
+		public croomid:Laya.Label;
+		public join:Laya.Button;
+		public jroomid:Laya.TextInput;
+		public close:Laya.Button;
+
+        public static  uiView:any ={"type":"View","props":{"width":768,"height":1024},"child":[{"type":"Image","props":{"y":0,"x":0,"width":768,"skin":"comp/bg.png","sizeGrid":"20,4,4,4","height":1024}},{"type":"Box","props":{"y":169,"x":96},"child":[{"type":"Image","props":{"width":556,"skin":"comp/bg.png","height":318}},{"type":"Button","props":{"y":202,"x":126,"width":267,"var":"create","skin":"comp/button.png","labelSize":30,"label":"创建房间","height":78}},{"type":"Label","props":{"y":115,"x":137,"width":254,"var":"croomid","text":"roomid","height":69,"fontSize":30,"align":"center"}}]},{"type":"Box","props":{"y":573,"x":96},"child":[{"type":"Image","props":{"width":556,"skin":"comp/bg.png","height":318}},{"type":"Button","props":{"y":203,"x":122,"width":267,"var":"join","skin":"comp/button.png","labelSize":30,"label":"加入房间","height":78}},{"type":"TextInput","props":{"y":127,"x":120,"width":289,"var":"jroomid","text":"TextInput","skin":"comp/textinput.png","height":56,"fontSize":30,"align":"center"}}]},{"type":"Button","props":{"y":25,"x":605,"width":139,"var":"close","skin":"comp/btn_close.png","height":82}}]};
+        constructor(){ super()}
+        createChildren():void {
+        
+            super.createChildren();
+            this.createView(ui.createroomUI.uiView);
+        }
+    }
+}
+
+module ui {
     export class loadingUI extends View {
 		public bar:Laya.ProgressBar;
 
