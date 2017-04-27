@@ -417,7 +417,7 @@ module PomeloLaya{
                     }
                 }
                 bytestr += "]";
-                console.log("send :"+bytestr);
+                // console.log("send :"+bytestr);
                 this.socket.flush();
             }
         }

@@ -130,14 +130,14 @@ class NetworkMgr{
        });
     }
 
-    entry(host, port, token, callback):void{
+    entry(host, port,uid,rid, callback):void{
         var init_par = {
                     host: host,
                     port: port
                 }
         this.pomelo.init(init_par,(result)=>{
-            this.pomelo.request('connector.entryHandler.entry', {token: token},(data)=>{
-                console.log(data);
+            this.pomelo.request('connector.entryHandler.entry', {uid: uid,rid:rid},(data)=>{
+               callback(data);
             });
         });
     }

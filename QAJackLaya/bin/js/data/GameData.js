@@ -4,6 +4,7 @@
 var GameData = (function () {
     function GameData() {
         this.user = new User();
+        this.room = new Room();
     }
     GameData.getInstance = function () {
         if (GameData._instance == null) {

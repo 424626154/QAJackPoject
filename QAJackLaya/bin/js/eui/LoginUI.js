@@ -30,14 +30,9 @@ var LoginUI = (function (_super) {
                         var token = data.token;
                         var uid = data.uid;
                         if (uid) {
-                            UIMgr.toUI(5 /* CreateRoom */);
-                            // NetworkMgr.getInstance().queryEntry(uid,(host:string,port:string)=>{
-                            //     console.log(token,host,port);
-                            //     NetworkMgr.getInstance().entry(host,port,token,()=>{
-                            //     });
-                            // });
                             GameData.getInstance().user.uid = uid;
                             GameData.getInstance().user.token = token;
+                            UIMgr.toUI(5 /* CreateRoom */);
                         }
                     }
                     else {

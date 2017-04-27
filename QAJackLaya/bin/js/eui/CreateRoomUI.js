@@ -10,6 +10,8 @@ var CreateRoomUI = (function (_super) {
     __extends(CreateRoomUI, _super);
     function CreateRoomUI() {
         var _this = _super.call(this) || this;
+        _this.networkMgr = NetworkMgr.getInstance();
+        _this.gameData = GameData.getInstance();
         _this.close.on(Laya.Event.CLICK, _this, function (e) {
             UIMgr.toUI(3 /* Login */);
         });
@@ -25,7 +27,7 @@ var CreateRoomUI = (function (_super) {
             _this.roomid = Number(_this.jroomid.text);
             _this.joinRoom(_this.roomid);
         });
-        var uid = GameData.getInstance().user.uid;
+        var uid = _this.gameData.user.uid;
         var pars = new Array();
         pars.push(['uid', uid]);
         var http = new HttpLaya(function (err, data) {
@@ -77,6 +79,24 @@ var CreateRoomUI = (function (_super) {
         http.sendPost(pars, "creatroom");
     };
     CreateRoomUI.prototype.joinRoom = function (roomid) {
+        var _this = this;
+        var token = this.gameData.user.token;
+        var uid = this.gameData.user.uid;
+        this.networkMgr.queryEntry(uid, function (host, port) {
+            console.log(token, host, port);
+            _this.networkMgr.entry(host, port, uid, roomid, function (data) {
+                if (data.code == 200) {
+                    console.log('data:', data);
+                    _this.gameData.room.roomId = data.roomid;
+                    _this.gameData.room.slocations = data.locations;
+                    _this.gameData.room.myuid = data.user;
+                    DataUtil.locationsS2C(_this.gameData.room.slocations, _this.gameData.room.myuid);
+                }
+                else {
+                    console.error('error code:', data.code);
+                }
+            });
+        });
     };
     return CreateRoomUI;
 }(ui.createroomUI));

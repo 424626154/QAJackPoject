@@ -12,7 +12,7 @@ var redis = new Redis();
  */
 roomDao.joinRoom = function(roomid, playerid, cb) {
     console.log("roomDao.joinRoom roomid:", roomid);
-    var sql = "select * from room where room_id = ?";
+    var sql = "select * from Room where roomId = ?";
     var args = [roomid];
     dbclient.query(sql, args, function(err, res) {
         if (err != null) {
@@ -22,7 +22,7 @@ roomDao.joinRoom = function(roomid, playerid, cb) {
             console.log("roomDao.joinRoom Success:", res.length);
             var player_num = 0;
             if (res.length == 0) {
-                sql = "insert into room (room_id,location1,player_num) values (?,?,?)";
+                sql = "insert into Room (roomId,location1,playerNum) values (?,?,?)";
                 player_num = 1;
                 args = [roomid, playerid, player_num];
 
@@ -33,7 +33,7 @@ roomDao.joinRoom = function(roomid, playerid, cb) {
                     return;
                 }
 
-                player_num = room.player_num + 1;
+                player_num = room.playerNum + 1;
                 var location = "";
                 if (room.location1 == null || room.location1 == "") {
                     location = "location1";
@@ -46,7 +46,7 @@ roomDao.joinRoom = function(roomid, playerid, cb) {
                 } else if (room.location5 == null || room.location5 == "") {
                     location = "location5";
                 }
-                sql = "update room set " + location + " = ? , player_num = ? where room_id = ?";
+                sql = "update room set " + location + " = ? , playerNum = ? where roomId = ?";
                 args = [playerid, player_num, roomid]
             }
             dbclient.query(sql, args, function(err, res) {
@@ -76,7 +76,7 @@ roomDao.joinRoom = function(roomid, playerid, cb) {
 
 
 roomDao.getPlayer = function(roomid, cb) {
-    var sql = "select * from room where room_id = ?";
+    var sql = "select * from Room where roomId = ?";
     var args = [roomid];
     dbclient.query(sql, args, function(err, res) {
         if (err != null) {
@@ -84,8 +84,8 @@ roomDao.getPlayer = function(roomid, cb) {
             utils.invokeCallback(cb, err, null);
         } else {
             var room = res[0];
-            var roomid = room.room_id;
-            var player_num = room.player_num;
+            var roomid = room.roomId;
+            var player_num = room.playernum;
             var locations = [];
             locations[0] = room.location1;
             locations[1] = room.location2;
@@ -98,7 +98,7 @@ roomDao.getPlayer = function(roomid, cb) {
 }
 
 roomDao.removeRoom = function(roomid, playerid, cb) {
-    var sql = "select * from room where room_id = ?";
+    var sql = "select * from Room where roomId = ?";
     var args = [roomid];
     dbclient.query(sql, args, function(err, res) {
         if (err != null) {
@@ -110,8 +110,8 @@ roomDao.removeRoom = function(roomid, playerid, cb) {
                 return;
             }
             var room = res[0];
-            var roomid = room.room_id;
-            var player_num = room.player_num - 1;
+            var roomid = room.roomId;
+            var player_num = room.playerNum - 1;
             var location = "";
             console.log("remove playerid:", playerid);
             if (room.location1 == playerid) {
@@ -125,8 +125,8 @@ roomDao.removeRoom = function(roomid, playerid, cb) {
             } else if (room.location5 == playerid) {
                 location = "location5";
             }
-            sql = "update room set " + location + " = ? , player_num = ? where room_id = ?";
-            args = ["", player_num, roomid];
+            sql = "update Room set " + location + " = ? , playerNum = ? where roomId = ?";
+            args = [playerid, player_num, roomid];
             console.log("remove sql:", sql);
             dbclient.query(sql, args, function(err, res) {
                 if (err != null) {

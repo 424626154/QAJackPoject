@@ -23,6 +23,8 @@ class LoginUI extends ui.loginUI{
                         var token = data.token;
                         var uid = data.uid;
                         if(uid){
+                            GameData.getInstance().user.uid = uid;
+                            GameData.getInstance().user.token = token;
                             UIMgr.toUI(EUI.CreateRoom);
                             // NetworkMgr.getInstance().queryEntry(uid,(host:string,port:string)=>{
                             //     console.log(token,host,port);
@@ -30,8 +32,6 @@ class LoginUI extends ui.loginUI{
 
                             //     });
                             // });
-                            GameData.getInstance().user.uid = uid;
-                            GameData.getInstance().user.token = token;
                         }
                     }else{
                     console.log('code:',data.code);

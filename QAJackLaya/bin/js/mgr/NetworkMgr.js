@@ -113,15 +113,15 @@ var NetworkMgr = (function () {
             }
         });
     };
-    NetworkMgr.prototype.entry = function (host, port, token, callback) {
+    NetworkMgr.prototype.entry = function (host, port, uid, rid, callback) {
         var _this = this;
         var init_par = {
             host: host,
             port: port
         };
         this.pomelo.init(init_par, function (result) {
-            _this.pomelo.request('connector.entryHandler.entry', { token: token }, function (data) {
-                console.log(data);
+            _this.pomelo.request('connector.entryHandler.entry', { uid: uid, rid: rid }, function (data) {
+                callback(data);
             });
         });
     };

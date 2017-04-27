@@ -2,7 +2,6 @@ var express = require('express');
 var app = express();
 var mysql = require('./lib/dao/mysql/mysql');
 var userDao = require('./lib/dao/userDao');
-var roomDao = require('./lib/dao/roomDao');
 var Token = require('../shared/token');
 var secret = require('../shared/config/session').secret;
 
@@ -120,7 +119,7 @@ app.post('/getroom', function(req, res) {
     });
     return;
   }
-  roomDao.getRoom(uid, function(err, roomid) {
+  userDao.getUserRoom(uid, function(err, roomid) {
     console.log('getRoom:', roomid);
     if (err) {
       res.send({
@@ -146,7 +145,7 @@ app.post('/creatroom', function(req, res) {
     });
     return;
   }
-  roomDao.createRoom(uid, function(err, roomid) {
+  userDao.createUserRoom(uid, function(err, roomid) {
     if (err) {
       res.send({
         code: 500

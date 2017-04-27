@@ -59,3 +59,33 @@ userDao.createUser = function(username, password, from, cb) {
 		}
 	});
 };
+
+userDao.createUserRoom = function(uid,cb){
+	var sql = 'update User set roomId = ? where id = ?';
+	var roomId = 123456;
+	var args = [roomId,uid];
+	mysql.query(sql, args, function(err, res) {
+		if (err !== null) {
+			cb(err.message, null);
+		} else {
+			cb(null,roomId);
+		}
+	});
+}
+
+userDao.getUserRoom = function(uid,cb){
+	var sql = 'select * from User where id = ?';
+	var args = [uid];
+	mysql.query(sql, args, function(err, res) {
+		if (err !== null) {
+			cb(err.message, null);
+		} else {
+			var user = res[0];
+			var roomId = user.roomId;
+			if(roomId == null){
+				roomId = 0;
+			}
+			cb(null,roomId);
+		}
+	});
+}

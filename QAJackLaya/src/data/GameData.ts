@@ -4,8 +4,10 @@
 class GameData{
     static _instance = null;
     user:User;
+    room:Room;
     constructor(){
         this.user = new User();
+        this.room = new Room();
     }
 
     static getInstance() : GameData{

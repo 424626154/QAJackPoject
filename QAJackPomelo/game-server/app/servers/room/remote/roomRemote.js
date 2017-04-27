@@ -21,13 +21,11 @@ var RoomRemote = function(app) {
 /**
  * 房间新增用户
  */
-RoomRemote.prototype.add = function(uid, sid, name, flag, cb) {
-	var channel = this.channelService.getChannel(name, flag);
+RoomRemote.prototype.add = function(uid, sid, rid, flag, cb) {
+	var channel = this.channelService.getChannel(rid, flag);
 	var channelService = this.channelService;
 	//如果name不存在且flag为true，则创建channel
-	var username = uid.split('*')[0];
-	var rid = uid.split('*')[1];
-	console.log("用户", username, "加入了房间", rid);
+	console.log("用户", uid, "加入了房间", rid);
 	var self = this;
 	if (!!channel) {
 		channel.add(uid, sid);
@@ -36,7 +34,7 @@ RoomRemote.prototype.add = function(uid, sid, name, flag, cb) {
 			var param = {
 				route: 'onJoin',
 				roomid: roomid,
-				user: username,
+				user: uid,
 				locations: locations //同时分配位置
 			};
 			channel.pushMessage(param);
