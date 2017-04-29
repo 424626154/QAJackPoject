@@ -19,7 +19,7 @@ roomDao.joinRoom = function(roomid, playerid, cb) {
             console.log("roomDao.joinRoom Error:", err);
             utils.invokeCallback(cb, err, null);
         } else {
-            console.log("roomDao.joinRoom Success:", res.length);
+            console.log("roomDao.joinRoom Success:",res.length);
             var player_num = 0;
             if (res.length == 0) {
                 sql = "insert into Room (roomId,location1,playerNum) values (?,?,?)";
@@ -46,8 +46,9 @@ roomDao.joinRoom = function(roomid, playerid, cb) {
                 } else if (room.location5 == null || room.location5 == "") {
                     location = "location5";
                 }
-                sql = "update room set " + location + " = ? , playerNum = ? where roomId = ?";
+                sql = "update Room set " + location + " = ? , playerNum = ? where roomId = ?";
                 args = [playerid, player_num, roomid]
+                console.log('roomDao.joinRoom insert sql:',sql,'args:',args);
             }
             dbclient.query(sql, args, function(err, res) {
                 if (err != null) {
@@ -84,6 +85,7 @@ roomDao.getPlayer = function(roomid, cb) {
             utils.invokeCallback(cb, err, null);
         } else {
             var room = res[0];
+            // console.log('roomDao.getPlayer room:',room);
             var roomid = room.roomId;
             var player_num = room.playernum;
             var locations = [];
@@ -126,8 +128,8 @@ roomDao.removeRoom = function(roomid, playerid, cb) {
                 location = "location5";
             }
             sql = "update Room set " + location + " = ? , playerNum = ? where roomId = ?";
-            args = [playerid, player_num, roomid];
-            console.log("remove sql:", sql);
+            args = [0, player_num, roomid];
+            console.log("remove sql:", sql,'args:',args);
             dbclient.query(sql, args, function(err, res) {
                 if (err != null) {
                     console.log("roomDao.joinRoom Error:", err);

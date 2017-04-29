@@ -10,6 +10,16 @@ var PlayerController = (function () {
         this.cardsArray = new Array();
         this.currentCardsIndex = -1;
     }
+    /**设置玩家 */
+    PlayerController.prototype.setPlayer = function (player) {
+        if (player.isSitDown) {
+            this.playerui.visible = true;
+            this.playerui.uname.text = player.uid + '';
+        }
+        else {
+            this.playerui.visible = false;
+        }
+    };
     PlayerController.prototype.setMaker = function () {
         this.timeCDAngle = 0;
         //创建遮罩对象

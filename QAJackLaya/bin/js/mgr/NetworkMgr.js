@@ -35,43 +35,14 @@ var NetworkMgr = (function () {
     /**
      * 初始化推送信息
      */
-    NetworkMgr.prototype.setPushMsg = function (type) {
-        this.pomelo.on(type, function (event) {
-            //错误处理
-            console.error("push msg type:", type, "data:", event);
-            NetworkEmitter.fire(type, event);
+    NetworkMgr.prototype.initPushMsg = function () {
+        this.pomelo.on(NetworkMgr.PUSH_MSG_JOIN, function (event) {
+            console.log("push msg type:", NetworkMgr.PUSH_MSG_JOIN, "data:", event);
+            NetworkEmitter.fire(NetworkMgr.PUSH_MSG_JOIN, event);
         });
-    };
-    /**
-     * 连接Pomelo
-     */
-    NetworkMgr.prototype.onQueryEntry = function (uid, rid, callback) {
-        var reg = this;
-        this.pomelo.init({
-            host: this.host,
-            port: this.post
-        }, function (result) {
-            //连接成功执行函数
-            console.log("link success result:", result);
-            if (result.code == 200) {
-                var route = "gate.gateHandler.queryEntry";
-                var msg = {
-                    uid: uid
-                };
-                reg.pomelo.request(route, msg, function (result) {
-                    if (result.code == 2001) {
-                        console.log("Servers error!");
-                        return;
-                    }
-                    if (result.code == 200) {
-                        reg.pomelo.disconnect();
-                        callback(reg, result.host, result.port, uid, rid);
-                    }
-                    else {
-                        console.log("Servers error ! code:", result.code);
-                    }
-                });
-            }
+        this.pomelo.on(NetworkMgr.PUSH_MSG_BACK, function (event) {
+            console.log("push msg type:", NetworkMgr.PUSH_MSG_BACK, "data:", event);
+            NetworkEmitter.fire(NetworkMgr.PUSH_MSG_BACK, event);
         });
     };
     /**
@@ -85,6 +56,9 @@ var NetworkMgr = (function () {
      */
     NetworkMgr.prototype.reconnectionPomelo = function () {
     };
+    /**
+     * 获取端口
+     */
     NetworkMgr.prototype.queryEntry = function (uid, callback) {
         var _this = this;
         var init_par = {
@@ -113,6 +87,9 @@ var NetworkMgr = (function () {
             }
         });
     };
+    /**
+     * 连接
+     */
     NetworkMgr.prototype.entry = function (host, port, uid, rid, callback) {
         var _this = this;
         var init_par = {
@@ -120,7 +97,7 @@ var NetworkMgr = (function () {
             port: port
         };
         this.pomelo.init(init_par, function (result) {
-            _this.pomelo.request('connector.entryHandler.entry', { uid: uid, rid: rid }, function (data) {
+            _this.pomelo.request('connector.entryHandler.entry', { userid: uid, rid: rid }, function (data) {
                 callback(data);
             });
         });

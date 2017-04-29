@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":1,
-    "selecteID":20,
+    "selectedBox":20,
+    "selecteID":21,
     "props":{"width":768,"sceneColor":"#000000","height":1024},
     "nodeParent":-1,
     "label":"View",
@@ -204,6 +204,84 @@
             "compId":15,
             "child":[
                 ]
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "props":{"y":13,"x":18,"width":62,"var":"showmenu","skin":"game/room_menu.png","height":62},
+            "nodeParent":1,
+            "label":"Image(showmenu)",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":16,
+            "child":[
+                ]
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "props":{"y":5,"x":17,"width":126,"var":"menu","height":144},
+            "nodeParent":1,
+            "label":"Box(menu)",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":20,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Image",
+                    "props":{"y":0,"x":0,"width":120,"skin":"game/menu_bg.png","sizeGrid":"10,10,10,10","height":188},
+                    "nodeParent":20,
+                    "label":"Image",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":17,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "props":{"y":72,"x":19,"var":"zhanqi","skin":"game/menuitem01.png"},
+                    "nodeParent":20,
+                    "label":"Image(zhanqi)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":18,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "props":{"y":119,"x":19,"var":"huanzhuo","skin":"game/menuitem02.png"},
+                    "nodeParent":20,
+                    "label":"Image(huanzhuo)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":19,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "props":{"y":22,"x":19,"var":"fanhui","skin":"game/menuitem00.png"},
+                    "nodeParent":20,
+                    "label":"Image(fanhui)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":21,
+                    "child":[
+                        ]
+                }]
         }],
     "animations":[
         {

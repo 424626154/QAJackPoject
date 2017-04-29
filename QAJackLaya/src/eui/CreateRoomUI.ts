@@ -50,20 +50,22 @@ class CreateRoomUI extends ui.createroomUI{
             this.create.label = '返回房间';
         }
     }
-
+    /**
+     * 创建房间
+     */
     createRoom():void{
         var uid = GameData.getInstance().user.uid;
         var pars = new Array();
         pars.push(['uid',uid]);           
         var http = new HttpLaya((err,data)=>{
             if(err != null){
-                console.log('err:',err);
+                new JDialogUI(err).show();
             }else{
-                if(data.code == 200){
+                if(data.code == Code.OK){
                     var roomid = data.roomid;
                     this.reloadCreateRoomUI(roomid);
                 }else{
-                    console.log("error code:",data.code);
+                   new JDialogUI(data.code ).show();
                 }
             }
         });
@@ -75,13 +77,14 @@ class CreateRoomUI extends ui.createroomUI{
         this.networkMgr.queryEntry(uid,(host:string,port:string)=>{
             console.log(token,host,port);
             this.networkMgr.entry(host,port,uid,roomid,(data)=>{
-                if(data.code == 200){
+                if(data.code == Code.OK){
+                    this.networkMgr.initPushMsg();
                     console.log('data:',data);
                     this.gameData.room.roomId = data.roomid;
                     this.gameData.room.slocations = data.locations ;
                     this.gameData.room.myuid = data.user;
-                    DataUtil.locationsS2C(this.gameData.room.slocations,this.gameData.room.myuid );
-                    // UIMgr.toUI(EUI.Room);
+                    this.gameData.room.clocations = DataUtil.locationsS2C(this.gameData.room.slocations,this.gameData.room.myuid );
+                    UIMgr.toUI(EUI.Room);
                 }else{
                     console.error('error code:',data.code);
                 }

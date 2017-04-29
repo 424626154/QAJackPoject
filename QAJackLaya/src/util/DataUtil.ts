@@ -30,7 +30,7 @@ class DataUtil{
         return clocations;
     }
 
-    static locationsAddS2C(slocations:Array<number>,clocations:Array<number>,sUid:number,mUid:number):Array<number>{
+    static locationsAddS2C(slocations:Array<number>,clocations:Array<number>,sUid:number,mUid:number):number{
         var mylocation = 0;
         if(sUid != mUid){
             var userlocation = 0;
@@ -55,7 +55,7 @@ class DataUtil{
                 showindex = showindex-5;
             }
             clocations[showindex] = slocations[userlocation];
-            return clocations;
+            return showindex;
         }
         console.log('slocations:',slocations,'clocations:',clocations,'mylocation:',mylocation);
     }

@@ -3,7 +3,7 @@
 */
 class User{
     name:string;
-    uid:string;
+    uid:number;
     token:string;
     money:number;
     userstate:UserState;

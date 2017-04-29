@@ -24,21 +24,24 @@ var RoomRemote = function(app) {
 RoomRemote.prototype.add = function(uid, sid, rid, flag, cb) {
 	var channel = this.channelService.getChannel(rid, flag);
 	var channelService = this.channelService;
+	var userid = uid.split('*')[0];
 	//如果name不存在且flag为true，则创建channel
-	console.log("用户", uid, "加入了房间", rid);
+	console.log('uid:',uid,"用户", userid, "加入了房间", rid);
 	var self = this;
 	if (!!channel) {
-		channel.add(uid, sid);
-
 		roomDao.getPlayer(rid, function(err, roomid, locations) {
+			var uids = channel.getMembers();
+			console.log('udis:',uids);
 			var param = {
 				route: 'onJoin',
 				roomid: roomid,
-				user: uid,
+				user: userid,
 				locations: locations //同时分配位置
 			};
+			console.log('推送 uids:',uids,'user',userid,'加入了房间',rid);
 			channel.pushMessage(param);
 
+			channel.add(uid, sid);
 			cb(roomid, locations);
 		});
 	}

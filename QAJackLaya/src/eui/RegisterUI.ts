@@ -2,8 +2,10 @@
 * name;
 */
 class RegisterUI extends ui.registerUI{
+    gamedata:GameData;
     constructor(){
         super();
+        this.gamedata = GameData.getInstance();
         this.close.on(Laya.Event.CLICK,this,this.onClose);
         this.register.on(Laya.Event.CLICK,this,this.onRegister);
     }
@@ -17,23 +19,24 @@ class RegisterUI extends ui.registerUI{
             var pars = new Array();
             pars.push(['uname',uname]);
             pars.push(['pwd',pwd]);           
-            var http = new HttpLaya(this.onRegisterCallback);
+            var http = new HttpLaya((err,data)=>{
+                if(err){
+                    new JDialogUI(err).show();
+                }else{
+                    if(data.code == Code.OK){
+                        var token = data.token;
+                        var uid = data.uid;
+                        this.gamedata.user.uid = uid;
+                        this.gamedata.user.token = token;
+                        UIMgr.toUI(EUI.CreateRoom);
+                    }else{
+                        new JDialogUI(data.code).show();
+                    }
+                }
+            });
             http.sendPost(pars,"register");
         }else{
-            console.log("参数错误");
-        }
-    }
-
-    onRegisterCallback(err,data):void{
-        if(err != null){
-            console.log('err:',err);
-        }else{
-            if(data.code == 200){
-                var token = data.token;
-                var uid = data.uid;
-            }else{
-               console.log('code:',data.code);
-            }
+            new JDialogUI("请输入用户名和密码").show();
         }
     }
 }

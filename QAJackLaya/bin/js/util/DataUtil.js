@@ -54,7 +54,7 @@ var DataUtil = (function () {
                 showindex = showindex - 5;
             }
             clocations[showindex] = slocations[userlocation];
-            return clocations;
+            return showindex;
         }
         console.log('slocations:', slocations, 'clocations:', clocations, 'mylocation:', mylocation);
     };

@@ -6,7 +6,7 @@ var JConfig = (function () {
     }
     return JConfig;
 }());
-JConfig.aniUButTime = 500;
+JConfig.aniUButTime = 300;
 JConfig.timeCDSpeed = 2;
 JConfig.aniChipTime = 500;
 JConfig.aniCardsTime = 500;

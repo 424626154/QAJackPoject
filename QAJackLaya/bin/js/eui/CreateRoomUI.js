@@ -57,6 +57,9 @@ var CreateRoomUI = (function (_super) {
             this.create.label = '返回房间';
         }
     };
+    /**
+     * 创建房间
+     */
     CreateRoomUI.prototype.createRoom = function () {
         var _this = this;
         var uid = GameData.getInstance().user.uid;
@@ -64,15 +67,15 @@ var CreateRoomUI = (function (_super) {
         pars.push(['uid', uid]);
         var http = new HttpLaya(function (err, data) {
             if (err != null) {
-                console.log('err:', err);
+                new JDialogUI(err).show();
             }
             else {
-                if (data.code == 200) {
+                if (data.code == Code.OK) {
                     var roomid = data.roomid;
                     _this.reloadCreateRoomUI(roomid);
                 }
                 else {
-                    console.log("error code:", data.code);
+                    new JDialogUI(data.code).show();
                 }
             }
         });
@@ -85,12 +88,14 @@ var CreateRoomUI = (function (_super) {
         this.networkMgr.queryEntry(uid, function (host, port) {
             console.log(token, host, port);
             _this.networkMgr.entry(host, port, uid, roomid, function (data) {
-                if (data.code == 200) {
+                if (data.code == Code.OK) {
+                    _this.networkMgr.initPushMsg();
                     console.log('data:', data);
                     _this.gameData.room.roomId = data.roomid;
                     _this.gameData.room.slocations = data.locations;
                     _this.gameData.room.myuid = data.user;
-                    DataUtil.locationsS2C(_this.gameData.room.slocations, _this.gameData.room.myuid);
+                    _this.gameData.room.clocations = DataUtil.locationsS2C(_this.gameData.room.slocations, _this.gameData.room.myuid);
+                    UIMgr.toUI(2 /* Room */);
                 }
                 else {
                     console.error('error code:', data.code);

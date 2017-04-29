@@ -1,5 +1,6 @@
 var mysql = require('./mysql/mysql');
 var userDao = module.exports;
+var Code = require('../../../shared/code');
 
 /**
  * Get userInfo by username
@@ -37,32 +38,56 @@ userDao.getUserByName = function(username, cb) {
  * @param {function} cb Call back function.
  */
 userDao.createUser = function(username, password, from, cb) {
-	var sql = 'insert into User (name,password,fromType,loginCount,lastLoginTime) values(?,?,?,?,?)';
-	var loginTime = Date.now();
-	var args = [username, password, from || '', 1, loginTime];
-	mysql.insert(sql, args, function(err, res) {
-		if (err !== null) {
-			cb({
-				code: err.number,
-				msg: err.message
-			}, null);
-		} else {
-			var userId = res.insertId;
-			var user = {
-				id: res.insertId,
-				name: username,
-				password: password,
-				loginCount: 1,
-				lastLoginTime: loginTime
-			};
-			cb(null, user);
-		}
-	});
+	var sql = 'select * from  User where name = ?';
+  var args = [username];
+	mysql.query(sql, args, function(err, res) {
+			if(err){
+				cb({
+					code: err.number,
+					msg: err.message
+				}, null);
+			}else{
+				if(res.length > 0 ){
+					cb({
+						code:Code.USER_RXISTS_ERROR
+					}, null);
+				}else{
+					sql = 'insert into User (name,password,fromType,loginCount,lastLoginTime) values(?,?,?,?,?)';
+					args = [username, password, from || '', 1, loginTime];
+					var loginTime = Date.now();
+
+					mysql.insert(sql, args, function(err, res) {
+						if (err !== null) {
+							cb({
+								code: err.number,
+								msg: err.message
+							}, null);
+						} else {
+							var userId = res.insertId;
+							var user = {
+								id: res.insertId,
+								name: username,
+								password: password,
+								loginCount: 1,
+								lastLoginTime: loginTime
+							};
+							cb(null, user);
+						}
+					});
+				}
+			}
+		});
 };
 
 userDao.createUserRoom = function(uid,cb){
 	var sql = 'update User set roomId = ? where id = ?';
-	var roomId = 123456;
+	var roomId = 0;
+	for (var i = 0; i < 6; i++) {
+		var max = 9;
+		var min = 1;
+		var ran = Math.floor(Math.random() * (max - min + 1) + min) * Math.pow(10, i);
+		roomId += ran;
+	}
 	var args = [roomId,uid];
 	mysql.query(sql, args, function(err, res) {
 		if (err !== null) {

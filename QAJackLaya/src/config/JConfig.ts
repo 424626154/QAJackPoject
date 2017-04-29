@@ -3,7 +3,7 @@
 */
 class JConfig{
 
-    static aniUButTime:number = 500;
+    static aniUButTime:number = 300;
 
     static timeCDSpeed:number = 2;
 

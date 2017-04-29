@@ -1,18 +1,14 @@
 var _poolModule = require('generic-pool');
-var mysqlConfig = require('../../../../shared/config/mysql');
 var mysql = require('mysql');
+var mysqlConfig = require('../../../../shared/config/mysql');
+var env = process.env.NODE_ENV || 'development';
+if(mysqlConfig[env]) {
+  mysqlConfig = mysqlConfig[env];
+}
 /*
  * Create mysql connection pool.
  */
 var createMysqlPool = function() {
-	console.log("mysqlConfig:", mysqlConfig);
-	var mysqlConfig = {
-		"host": "127.0.0.1",
-		"port": "3306",
-		"database": "qajack",
-		"user": "root",
-		"password": "890503"
-	}
 	const factory = {
 		create: function() {
 			return new Promise(function(resolve, reject) {

@@ -8,7 +8,7 @@ class GameMain{
         Laya.stage.alignV = Laya.Stage.ALIGN_MIDDLE;
         Laya.stage.screenMode = Laya.Stage.SCREEN_VERTICAL;
         //调试面板
-		Laya.Stat.show(0,0);
+		// Laya.Stat.show(0,0);
          var loadingResArray = [
             {url:"res/atlas/loading.json",type:Laya.Loader.ATLAS}
         ]

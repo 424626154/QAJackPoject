@@ -4,6 +4,7 @@ var mysql = require('./lib/dao/mysql/mysql');
 var userDao = require('./lib/dao/userDao');
 var Token = require('../shared/token');
 var secret = require('../shared/config/session').secret;
+var Code = require('../shared/code');
 
 app.configure(function() {
   app.use(express.methodOverride());
@@ -31,6 +32,15 @@ app.configure('production', function() {
     maxAge: oneYear
   }));
   app.use(express.errorHandler());
+});
+//设置跨域访问
+app.all('*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    res.header("X-Powered-By",' 3.2.1')
+    res.header("Content-Type", "application/json;charset=utf-8");
+    next();
 });
 
 app.post('/login', function(req, res) {
@@ -81,7 +91,7 @@ app.post('/register', function(req, res) {
   console.log("register msg:", msg);
   if (!uname || !pwd) {
     res.send({
-      code: 500
+      code: Code.LOGIN_PAR_ERROR
     });
     return;
   }
@@ -89,19 +99,15 @@ app.post('/register', function(req, res) {
   userDao.createUser(uname, pwd, '', function(err, user) {
     if (err || !user) {
       console.error(err);
-      if (err && err.code === 1062) {
+      if (err) {
         res.send({
-          code: 501
-        });
-      } else {
-        res.send({
-          code: 500
+          code: err.code
         });
       }
     } else {
-      console.log('A new user was created! --' + msg.name);
+      console.log('A new user was created! --' + uname);
       res.send({
-        code: 200,
+        code: Code.OK,
         token: Token.create(user.id, Date.now(), secret),
         uid: user.id
       });

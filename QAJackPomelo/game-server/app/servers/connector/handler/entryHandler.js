@@ -22,11 +22,11 @@ handler.entry = function(msg, session, next) {
 	console.log('msg,:',msg);
 	var self = this;
 	var rid = msg.rid;
-	var uid = msg.uid;
-	var urid = uid + "*" + rid;
-	roomDao.joinRoom(rid, uid, function(err, res) {
+	var userid = msg.userid;
+	var uid = userid + '*' + rid;
+	roomDao.joinRoom(rid, userid, function(err, res) {
 		// console.log("err:", err, "res:", res);
-		session.bind(urid);
+		session.bind(uid);
 		session.set('rid', rid);
 		session.push('rid', function(err) {
 			if (err) {

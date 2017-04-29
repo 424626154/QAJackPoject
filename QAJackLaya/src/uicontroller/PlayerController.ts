@@ -17,6 +17,8 @@ class PlayerController{
 
     currentCardsIndex:number;
 
+    player:Player;
+
     constructor(playerui:ui.playerUI,dl:DesktopLocation){
         this.playerui = playerui;
         this.playerui.umask.visible = false;
@@ -24,6 +26,15 @@ class PlayerController{
         this.setMaker();
         this.cardsArray = new Array();
         this.currentCardsIndex = -1;
+    }
+    /**设置玩家 */
+    setPlayer(player:Player){
+        if(player.isSitDown){
+            this.playerui.visible = true;
+            this.playerui.uname.text = player.uid+'';
+        }else{
+            this.playerui.visible = false;
+        }
     }
 
     setMaker():void{
