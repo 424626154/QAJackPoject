@@ -16,35 +16,65 @@ module.exports = function(app) {
 var RoomRemote = function(app) {
 	this.app = app;
 	this.channelService = app.get('channelService');
+	this.roomService = app.get('roomService');
 };
 
 /**
  * 房间新增用户
  */
 RoomRemote.prototype.add = function(uid, sid, rid, flag, cb) {
-	var channel = this.channelService.getChannel(rid, flag);
+	var channel = this.channelService.getChannel(rid, true);
 	var channelService = this.channelService;
 	var userid = uid.split('*')[0];
-	//如果name不存在且flag为true，则创建channel
-	console.log('uid:',uid,"用户", userid, "加入了房间", rid);
-	var self = this;
-	if (!!channel) {
-		roomDao.getPlayer(rid, function(err, roomid, locations) {
-			var uids = channel.getMembers();
-			console.log('udis:',uids);
-			var param = {
-				route: 'onJoin',
-				roomid: roomid,
-				user: userid,
-				locations: locations //同时分配位置
-			};
-			console.log('推送 uids:',uids,'user',userid,'加入了房间',rid);
-			channel.pushMessage(param);
+	var roomService = this.roomService;
+	roomService.add(rid,userid,function(roomid, locations){
+				var uids = channel.getMembers();
+				console.log('udis:',uids);
+				var param = {
+					route: 'onJoin',
+					roomid: roomid,
+					user: userid,
+					locations: locations //同时分配位置
+				};
+				console.log('推送 uids:',uids,'user',userid,'加入了房间',roomid);
+				channel.pushMessage(param);
 
-			channel.add(uid, sid);
-			cb(roomid, locations);
-		});
-	}
+				channel.add(uid, sid);
+				cb(roomid, locations);
+			roomService.start(roomid,function (playerNum) {
+				if(playerNum > 1){
+					var uids = channel.getMembers();
+					console.log('udis:',uids);
+					var param = {
+						route: 'onStart',
+						roomid: roomid,
+						playernum: playerNum
+					};
+					console.log('推送 uids:',uids,roomid,'房间开始了游戏');
+					channel.pushMessage(param);
+				}
+			})
+	});
+	// //如果name不存在且flag为true，则创建channel
+	// console.log('uid:',uid,"用户", userid, "加入了房间", rid);
+	// var self = this;
+	// if (!!channel) {
+	// 	roomDao.getPlayer(rid, function(err, roomid, locations) {
+	// 		var uids = channel.getMembers();
+	// 		console.log('udis:',uids);
+	// 		var param = {
+	// 			route: 'onJoin',
+	// 			roomid: roomid,
+	// 			user: userid,
+	// 			locations: locations //同时分配位置
+	// 		};
+	// 		console.log('推送 uids:',uids,'user',userid,'加入了房间',rid);
+	// 		channel.pushMessage(param);
+    //
+	// 		channel.add(uid, sid);
+	// 		cb(roomid, locations);
+	// 	});
+	// }
 };
 
 /**
@@ -203,10 +233,7 @@ RoomRemote.prototype.kick = function(uid, sid, name, cb) {
 		console.log("------------users:" + users);
 	}
 	console.log("玩家", username, "退出了房间", rid);
-	roomDao.removeRoom(rid, username, function(err, res) {
-		if (err != null) {
-
-		}
+	this.roomService.leave(rid, username,function(uid,locations){
 		var param = {
 			route: 'onBack',
 			roomid: rid,
@@ -214,7 +241,19 @@ RoomRemote.prototype.kick = function(uid, sid, name, cb) {
 		};
 		channel.pushMessage(param);
 		cb();
-	});
+	})
+	// roomDao.removeRoom(rid, username, function(err, res) {
+		// if (err != null) {
+        //
+		// }
+		// var param = {
+		// 	route: 'onBack',
+		// 	roomid: rid,
+		// 	user: username,
+		// };
+		// channel.pushMessage(param);
+		// cb();
+	// });
 	// roomDao.getPlayerLocal(rid, username, function(err, location) {
 	// 	roomDao.cleanOpenMark(rid, location, function(err) {
 	// 		roomDao.rmPlayer(rid, uid, function(err) {

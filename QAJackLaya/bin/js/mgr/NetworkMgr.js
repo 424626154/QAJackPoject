@@ -36,6 +36,9 @@ var NetworkMgr = (function () {
      * 初始化推送信息
      */
     NetworkMgr.prototype.initPushMsg = function () {
+        this.pomelo.off(NetworkMgr.PUSH_MSG_JOIN);
+        this.pomelo.off(NetworkMgr.PUSH_MSG_BACK);
+        this.pomelo.off(NetworkMgr.PUSH_MSG_START);
         this.pomelo.on(NetworkMgr.PUSH_MSG_JOIN, function (event) {
             console.log("push msg type:", NetworkMgr.PUSH_MSG_JOIN, "data:", event);
             NetworkEmitter.fire(NetworkMgr.PUSH_MSG_JOIN, event);
@@ -43,6 +46,10 @@ var NetworkMgr = (function () {
         this.pomelo.on(NetworkMgr.PUSH_MSG_BACK, function (event) {
             console.log("push msg type:", NetworkMgr.PUSH_MSG_BACK, "data:", event);
             NetworkEmitter.fire(NetworkMgr.PUSH_MSG_BACK, event);
+        });
+        this.pomelo.on(NetworkMgr.PUSH_MSG_START, function (event) {
+            console.log("push msg type:", NetworkMgr.PUSH_MSG_START, "data:", event);
+            NetworkEmitter.fire(NetworkMgr.PUSH_MSG_START, event);
         });
     };
     /**

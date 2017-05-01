@@ -16,6 +16,7 @@ class JConfig{
     static cardsH:number = 67;
 
     static cardsI:number = 15;
+    static cardsNI:number = 2;
     /**牌和人高度 */
     static cardsIPH:number = 10;
 

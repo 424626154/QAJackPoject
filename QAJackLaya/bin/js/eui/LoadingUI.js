@@ -19,7 +19,8 @@ var LoadingUI = (function (_super) {
             { url: "room_bg.png", type: Laya.Loader.IMAGE },
             { url: "res/atlas/game.json", type: Laya.Loader.ATLAS },
             { url: "res/atlas/chip.json", type: Laya.Loader.ATLAS },
-            { url: "res/atlas/cards.json", type: Laya.Loader.ATLAS }
+            { url: "res/atlas/cards.json", type: Laya.Loader.ATLAS },
+            { url: "res/atlas/head.json", type: Laya.Loader.ATLAS }
         ];
         //设置progress Handler的第4个参数为true，根据加载文件个数获取加载进度
         Laya.loader.load(res, null, Laya.Handler.create(this, this.onProgress, null, false));

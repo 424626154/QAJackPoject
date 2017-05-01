@@ -4,6 +4,7 @@
 var NpcController = (function () {
     function NpcController(roomui) {
         this.init();
+        this.gameData = GameData.getInstance();
         this.roomui = roomui;
     }
     NpcController.prototype.init = function () {
@@ -59,16 +60,29 @@ var NpcController = (function () {
         else {
             this.cardsArray = new Array();
         }
-        var cardsnum = 10;
-        var cardsallw = JConfig.cardsW + (cardsnum - 1) * JConfig.cardsI;
+        var cardsnum = 52;
+        var cardsallw = JConfig.cardsW + (cardsnum - 1) * JConfig.cardsNI;
         var startx = (this.roomui.width - cardsallw) / 2;
         var starty = 190;
         for (var i = 0; i < cardsnum; i++) {
-            var cards = new CardsController(i);
-            cards.cards.x = startx + i * JConfig.cardsI;
+            var cards = new CardsController(-1);
+            cards.cards.x = startx + i * JConfig.cardsNI;
             cards.cards.y = starty;
             this.roomui.addChild(cards.cards);
             this.cardsArray.push(cards);
+        }
+    };
+    /**
+     * 首次发牌
+     */
+    NpcController.prototype.firstDealCards = function () {
+        this.initCards();
+        for (var i = 0; i < this.gameData.room.clocations.length; i++) {
+            if (this.gameData.room.clocations[i] != 0) {
+                for (var j = 0; j < 2; j++) {
+                    this.dealCards(this.roomui.pucArray[i]);
+                }
+            }
         }
     };
     /**

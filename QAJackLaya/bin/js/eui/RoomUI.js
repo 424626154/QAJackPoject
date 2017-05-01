@@ -66,10 +66,6 @@ var RoomUI = (function (_super) {
             // this.openUbutAni();
         });
         this.npcCon = new NpcController(this);
-        for (var i = 0; i < this.pucArray.length; i++) {
-            this.pucArray[i].playerui.uname.text = "name" + i;
-        }
-        this.npcCon.initCards();
     };
     /**
      * 初始化玩家UI
@@ -111,17 +107,19 @@ var RoomUI = (function (_super) {
     RoomUI.prototype.registerPushs = function () {
         NetworkEmitter.register(NetworkMgr.PUSH_MSG_JOIN, this.onPushMsgJoin, this);
         NetworkEmitter.register(NetworkMgr.PUSH_MSG_BACK, this.onPushMsgBack, this);
+        NetworkEmitter.register(NetworkMgr.PUSH_MSG_START, this.onPushMsgStart, this);
     };
     RoomUI.prototype.removePushs = function () {
         NetworkEmitter.remove(NetworkMgr.PUSH_MSG_JOIN, this.onPushMsgJoin, this);
         NetworkEmitter.remove(NetworkMgr.PUSH_MSG_BACK, this.onPushMsgBack, this);
+        NetworkEmitter.remove(NetworkMgr.PUSH_MSG_START, this.onPushMsgStart, this);
     };
     RoomUI.prototype.onPushMsgJoin = function (eventName, data) {
         console.log("onPushMsgJoin", eventName, 'data:', data);
         var roomid = data.roomid;
         var user = data.user;
         var slocations = data.locations;
-        if (roomid == this.gamedata.room.roomId) {
+        if (roomid == this.gamedata.room.roomId && user != this.gamedata.user.uid) {
             var showindex = DataUtil.locationsAddS2C(slocations, this.gamedata.room.clocations, user, this.gamedata.user.uid);
             var player = new Player();
             var puc = this.pucArray[showindex];
@@ -140,6 +138,29 @@ var RoomUI = (function (_super) {
      */
     RoomUI.prototype.onPushMsgBack = function (eventName, data) {
         console.log("onPushMsgJoin", eventName, 'data:', data);
+        var roomid = data.roomid;
+        var user = data.user;
+        if (roomid == this.gamedata.room.roomId) {
+            var removeIndex = -1;
+            for (var i = 0; i < this.gamedata.room.clocations.length; i++) {
+                if (this.gamedata.room.clocations[i] == user) {
+                    this.gamedata.room.clocations[i] = 0;
+                    removeIndex = i;
+                    break;
+                }
+            }
+            if (removeIndex != -1) {
+                var puc = this.pucArray[removeIndex];
+                var player = new Player();
+                player.isSitDown = false;
+                puc.setPlayer(player);
+            }
+        }
+    };
+    /**开始发牌 */
+    RoomUI.prototype.onPushMsgStart = function (eventName, data) {
+        // console.log("onPushMsgJoin",eventName, 'data:',data);
+        this.npcCon.firstDealCards();
     };
     /****** click事件监听******/
     RoomUI.prototype.onClickUBut01 = function (e) {

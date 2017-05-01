@@ -1,5 +1,6 @@
 var pomelo = require('pomelo');
 var routeUtil = require('./app/util/routeUtil');
+var RoomService = require('./app/services/roomService');
 /**
  * Init app for client.
  */
@@ -36,9 +37,15 @@ app.configure('production|development', 'auth', function() {
 });
 
 
-app.configure('production|development', 'room|auth|connector', function() {
+app.configure('production|development', 'auth|connector', function() {
 	var dbclient = require('./app/dao/mysql/mysql').init(app);
 	app.set('dbclient', dbclient);
+});
+
+app.configure('production|development', 'room', function() {
+	var dbclient = require('./app/dao/mysql/mysql').init(app);
+	app.set('dbclient', dbclient);
+	app.set('roomService', new RoomService(app));
 });
 
 // start app

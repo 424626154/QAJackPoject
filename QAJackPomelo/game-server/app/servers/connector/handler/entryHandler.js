@@ -24,7 +24,7 @@ handler.entry = function(msg, session, next) {
 	var rid = msg.rid;
 	var userid = msg.userid;
 	var uid = userid + '*' + rid;
-	roomDao.joinRoom(rid, userid, function(err, res) {
+	// roomDao.joinRoom(rid, userid, function(err, res) {
 		// console.log("err:", err, "res:", res);
 		session.bind(uid);
 		session.set('rid', rid);
@@ -39,11 +39,11 @@ handler.entry = function(msg, session, next) {
 			next(null, {
 				code: Code.OK,
 				roomid: roomid,
-				user: uid,
+				user: userid,
 				locations: locations
 			});
 		});
-	});
+	// });
 };
 
 /**

@@ -11,7 +11,12 @@ var CardsUI = (function (_super) {
     function CardsUI(index) {
         var _this = _super.call(this) || this;
         _this.index = index;
-        _this.cards.skin = "cards/" + index + ".png";
+        if (index = -1) {
+            _this.cards.skin = "cards/back.png";
+        }
+        else {
+            _this.cards.skin = "cards/" + index + ".png";
+        }
         return _this;
     }
     return CardsUI;

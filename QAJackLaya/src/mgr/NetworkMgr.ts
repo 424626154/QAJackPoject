@@ -52,13 +52,20 @@ class NetworkMgr{
      * 初始化推送信息
      */
     initPushMsg():void{
-        this.pomelo.on(NetworkMgr.PUSH_MSG_JOIN, function(event){
+        this.pomelo.off(NetworkMgr.PUSH_MSG_JOIN);
+        this.pomelo.off(NetworkMgr.PUSH_MSG_BACK);
+        this.pomelo.off(NetworkMgr.PUSH_MSG_START);
+        this.pomelo.on(NetworkMgr.PUSH_MSG_JOIN,(event)=>{
             console.log("push msg type:",NetworkMgr.PUSH_MSG_JOIN,"data:",event);
             NetworkEmitter.fire(NetworkMgr.PUSH_MSG_JOIN,event); 
         });
-        this.pomelo.on(NetworkMgr.PUSH_MSG_BACK, function(event){
+        this.pomelo.on(NetworkMgr.PUSH_MSG_BACK,(event)=>{
             console.log("push msg type:",NetworkMgr.PUSH_MSG_BACK,"data:",event);
             NetworkEmitter.fire(NetworkMgr.PUSH_MSG_BACK,event); 
+        });
+        this.pomelo.on(NetworkMgr.PUSH_MSG_START,(event)=>{
+            console.log("push msg type:",NetworkMgr.PUSH_MSG_START,"data:",event);
+            NetworkEmitter.fire(NetworkMgr.PUSH_MSG_START,event); 
         });
     }
     /**
@@ -77,7 +84,7 @@ class NetworkMgr{
     /**
      * 获取端口
      */
-    queryEntry(uid:string, callback:Function):void{
+    queryEntry(uid:number, callback:Function):void{
         var init_par = {
                     host: this.host,
                     port: this.post

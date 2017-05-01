@@ -6,6 +6,10 @@ class CardsUI extends ui.cardsUI{
     constructor(index:number){
         super();
         this.index = index;
-        this.cards.skin = "cards/"+index+".png";
+        if(index = -1){
+          this.cards.skin = "cards/back.png";
+        }else{
+           this.cards.skin = "cards/"+index+".png";
+        }
     }
 }

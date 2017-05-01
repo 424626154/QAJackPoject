@@ -19,6 +19,9 @@ class PlayerController{
 
     player:Player;
 
+    hWidth:number;
+    hHeight:number;
+
     constructor(playerui:ui.playerUI,dl:DesktopLocation){
         this.playerui = playerui;
         this.playerui.umask.visible = false;
@@ -26,12 +29,17 @@ class PlayerController{
         this.setMaker();
         this.cardsArray = new Array();
         this.currentCardsIndex = -1;
+        this.hWidth = this.playerui.width;
+        this.hHeight = this.playerui.height;
     }
     /**设置玩家 */
     setPlayer(player:Player){
         if(player.isSitDown){
             this.playerui.visible = true;
             this.playerui.uname.text = player.uid+'';
+            this.playerui.head.width = this.playerui.head.width;
+            this.playerui.head.height = this.playerui.head.height;
+            this.playerui.head.skin = 'head/'+player.uid+'.png';
         }else{
             this.playerui.visible = false;
         }
