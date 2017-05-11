@@ -25,7 +25,7 @@ var DataUtil = (function () {
             }
             clocations[i] = slocations[index];
         }
-        console.log('slocations:', slocations, 'clocations:', clocations, 'mylocation:', mylocation);
+        console.log('slocations:', slocations, 'clocations:', clocations, 'mylocation:', mylocation, 'devlocation:', devlocation);
         return clocations;
     };
     DataUtil.locationsAddS2C = function (slocations, clocations, sUid, mUid) {

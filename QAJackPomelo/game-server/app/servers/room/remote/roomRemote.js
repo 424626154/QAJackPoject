@@ -41,14 +41,15 @@ RoomRemote.prototype.add = function(uid, sid, rid, flag, cb) {
 
 				channel.add(uid, sid);
 				cb(roomid, locations);
-			roomService.start(roomid,function (playerNum) {
+			roomService.start(roomid,function (playerNum,startUid) {
 				if(playerNum > 1){
 					var uids = channel.getMembers();
 					console.log('udis:',uids);
 					var param = {
 						route: 'onStart',
 						roomid: roomid,
-						playernum: playerNum
+						playernum: playerNum,
+						startUid:startUid
 					};
 					console.log('推送 uids:',uids,roomid,'房间开始了游戏');
 					channel.pushMessage(param);

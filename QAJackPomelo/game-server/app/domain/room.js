@@ -7,6 +7,7 @@ var Room = function () {
     this.deskCards = [];
     this.pokers = [];
     this.playerPokers = [[],[],[],[],[]];
+    this.startPos = 0;
 }
 
 module.exports = Room;

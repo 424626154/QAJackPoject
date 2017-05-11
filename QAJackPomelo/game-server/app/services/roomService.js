@@ -111,6 +111,7 @@ RoomService.prototype.start = function (roomid,cb) {
     if(this.uidMap[roomid]  != null) {
         room = this.uidMap[roomid];
         var playerNum = 0;
+        var startUid = -1;
         for (var i = 0; i < room.deskPlayers.length; i++) {
             if (room.deskPlayers[i] != 0) {
                 playerNum += 1;
@@ -136,20 +137,27 @@ RoomService.prototype.start = function (roomid,cb) {
                 });
             }
             console.log('size:', allPoker.length);
+            room.startUid = -1;
             //初始为每个位置玩家发两张牌
             for (var i = 0; i < room.deskPlayers.length; i++) {
                 if (room.deskPlayers[i] != 0) {
+                    // console.log('room.deskPlayers:',i,room.deskPlayers[i]);
+                    if(room.startUid == -1){//启始位置
+                        room.startUid = room.deskPlayers[i];
+                    }
                     for (var i = 0; i < 2; i++) {
                         room.playerPokers[i].push(allPoker.pop());
                     }
                 }
             }
+            // console.log('startUid:',startUid);
+            startUid = room.startUid;
             room.pokers = allPoker;
             this.uidMap[roomid] = room;
         }
     }
     // console.log('room:', room);
-    cb(playerNum);
+    cb(playerNum,startUid);
 }
 
 

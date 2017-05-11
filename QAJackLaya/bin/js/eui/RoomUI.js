@@ -161,6 +161,27 @@ var RoomUI = (function (_super) {
     RoomUI.prototype.onPushMsgStart = function (eventName, data) {
         // console.log("onPushMsgJoin",eventName, 'data:',data);
         this.npcCon.firstDealCards();
+        var startUid = data.startUid;
+        Laya.timer.once(500, this, this.startCountDownIndex, [startUid]);
+    };
+    //初始化倒计时索引
+    RoomUI.prototype.startCountDownIndex = function (startUid) {
+        var countdownindex = -1;
+        for (var i = 0; i < this.gamedata.room.clocations.length; i++) {
+            if (this.gamedata.room.clocations[i] == startUid) {
+                countdownindex = i;
+                break;
+            }
+        }
+        console.log('countdownindex:', countdownindex);
+        this.gamedata.room.countdownindex = countdownindex;
+        var user = this.pucArray[countdownindex];
+        user.startTimeCD();
+        if (startUid == this.gamedata.room.myuid) {
+            this.openUbutAni();
+        }
+        // user.xian.visible = true;
+        // Laya.timer.once(1000,this,this.hideXian,[user.xian]);
     };
     /****** click事件监听******/
     RoomUI.prototype.onClickUBut01 = function (e) {
