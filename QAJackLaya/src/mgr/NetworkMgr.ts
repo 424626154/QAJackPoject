@@ -124,6 +124,14 @@ class NetworkMgr{
             });
         });
     }
+    /**
+     * 弃牌
+     */
+    discard(uid:number,rid:number,callback):void{
+        this.pomelo.request('room.roomHandler.discard', {userid: uid,rid:rid},(data)=>{
+               callback(data);
+            });
+    }
 }
 
 const enum NetworkState{

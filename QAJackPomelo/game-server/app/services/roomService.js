@@ -160,5 +160,24 @@ RoomService.prototype.start = function (roomid,cb) {
     cb(playerNum,startUid);
 }
 
+RoomService.prototype.discard = function(roomid,userid,cb){
+    var room;
+    if(this.uidMap[roomid]  != null) {
+        room = this.uidMap[roomid];
+        var pos = -1;
+        for(var i = 0 ; i < room.deskPlayers.length;i++ ){
+            if(room.deskPlayers[i] == userid){
+                pos = i;
+                break;
+            }
+        }
+        if(pos != -1){
+            room.playerPokers[pos] = [];
+            this.uidMap[roomid] = room;
+            console.log('room:',room);
+        }
+    }
+    cb(roomid,userid);
+}
 
 

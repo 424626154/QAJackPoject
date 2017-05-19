@@ -198,6 +198,12 @@ class RoomUI extends ui.roomUI{
         // this.ubutAni(0);
         this.retractUbutAin();
         // this.pucArray[0].startTimeCD();
+        NetworkMgr.getInstance().discard(this.gamedata.room.myuid,this.gamedata.room.roomId,(data)=>{
+            console.log('discard :',data);
+            if(data.code == Code.OK){
+                this.npcCon.discardCards(this.pucArray[2]);
+            }
+        })
     }
     onClickUBut02(e:Laya.Event):void{
         console.log("onClickUBut02");
@@ -228,9 +234,11 @@ class RoomUI extends ui.roomUI{
     /****** animation事件监听******/
 
     openUbutAni(){
+        var buinfo = [['弃牌','/game/ubut01.png'],['弃牌','/game/ubut02.png'],['弃牌','/game/ubut03.png'],['弃牌','/game/ubut04.png'],['弃牌','/game/ubut05.png']];
         for(var i = 0 ; i < this.ubcArray.length;i++){
             this.ubcArray[i].ubutton.visible = true;
             this.ubutAni(i);
+            this.ubcArray[i].setButInfo(buinfo[0][0],buinfo[0][1]);
         }
     }
     retractUbutAin(){

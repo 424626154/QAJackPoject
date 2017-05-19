@@ -170,7 +170,7 @@ var ui;
         };
         return ubuttonUI;
     }(View));
-    ubuttonUI.uiView = { "type": "View", "props": { "width": 88, "height": 110 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "skin": "game/ubut01.png" } }, { "type": "Label", "props": { "y": 90, "x": 0, "width": 88, "text": "label", "height": 20, "align": "center" } }] };
+    ubuttonUI.uiView = { "type": "View", "props": { "width": 88, "height": 110 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "var": "ubimg", "skin": "game/ubut01.png" } }, { "type": "Label", "props": { "y": 90, "x": 0, "width": 88, "var": "ublabel", "text": "label", "height": 20, "align": "center" } }] };
     ui.ubuttonUI = ubuttonUI;
 })(ui || (ui = {}));
 //# sourceMappingURL=layaUI.max.all.js.map

@@ -109,6 +109,14 @@ var NetworkMgr = (function () {
             });
         });
     };
+    /**
+     * 弃牌
+     */
+    NetworkMgr.prototype.discard = function (uid, rid, callback) {
+        this.pomelo.request('room.roomHandler.discard', { userid: uid, rid: rid }, function (data) {
+            callback(data);
+        });
+    };
     return NetworkMgr;
 }());
 NetworkMgr._instance = null;

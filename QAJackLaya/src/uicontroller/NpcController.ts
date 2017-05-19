@@ -115,6 +115,22 @@ class NpcController{
     dealCardsComplete(cards:CardsUI):void{
         console.log("dealCardsComplete");
     }
-
+    /**
+     * 弃牌
+     */
+    discardCards(playerCon:PlayerController):void{
+        for(var i = playerCon.cardsArray.length-1 ;i >= 0;i--){
+            var toX = Laya.stage.width/2;
+            var toY = Laya.stage.height/2;
+            var cards = playerCon.cardsArray[i].cards;
+            Laya.Tween.to(cards,{x:toX,y:toY},JConfig.aniCardsTime,null,Laya.Handler.create(this, this.discardCardsComplete, [cards]));
+            playerCon.cardsArray.pop();
+     }
+    }
+    discardCardsComplete(cards:CardsUI):void{
+        console.log("discardCardsComplete");
+        cards.removeSelf();
+        cards.destroy();
+    }
 
 }

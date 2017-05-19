@@ -178,8 +178,10 @@ module ui {
 
 module ui {
     export class ubuttonUI extends View {
+		public ubimg:Laya.Image;
+		public ublabel:Laya.Label;
 
-        public static  uiView:any ={"type":"View","props":{"width":88,"height":110},"child":[{"type":"Image","props":{"y":0,"x":0,"skin":"game/ubut01.png"}},{"type":"Label","props":{"y":90,"x":0,"width":88,"text":"label","height":20,"align":"center"}}]};
+        public static  uiView:any ={"type":"View","props":{"width":88,"height":110},"child":[{"type":"Image","props":{"y":0,"x":0,"var":"ubimg","skin":"game/ubut01.png"}},{"type":"Label","props":{"y":90,"x":0,"width":88,"var":"ublabel","text":"label","height":20,"align":"center"}}]};
         constructor(){ super()}
         createChildren():void {
         

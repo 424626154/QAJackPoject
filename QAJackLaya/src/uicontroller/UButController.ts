@@ -22,4 +22,8 @@ class UButController{
         this.endY = 825;
         this.isOpen = true;
     }
+    setButInfo(name:string,img:string):void{
+        this.ubutton.ublabel.text = name;
+        this.ubutton.ubimg.skin = img;
+    }
 }

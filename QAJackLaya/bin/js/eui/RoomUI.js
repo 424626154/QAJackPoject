@@ -185,10 +185,17 @@ var RoomUI = (function (_super) {
     };
     /****** click事件监听******/
     RoomUI.prototype.onClickUBut01 = function (e) {
+        var _this = this;
         console.log("onClickUBut01");
         // this.ubutAni(0);
         this.retractUbutAin();
         // this.pucArray[0].startTimeCD();
+        NetworkMgr.getInstance().discard(this.gamedata.room.myuid, this.gamedata.room.roomId, function (data) {
+            console.log('discard :', data);
+            if (data.code == Code.OK) {
+                _this.npcCon.discardCards(_this.pucArray[2]);
+            }
+        });
     };
     RoomUI.prototype.onClickUBut02 = function (e) {
         console.log("onClickUBut02");
@@ -217,9 +224,11 @@ var RoomUI = (function (_super) {
     /****** click事件监听******/
     /****** animation事件监听******/
     RoomUI.prototype.openUbutAni = function () {
+        var buinfo = [['弃牌', '/game/ubut01.png'], ['弃牌', '/game/ubut02.png'], ['弃牌', '/game/ubut03.png'], ['弃牌', '/game/ubut04.png'], ['弃牌', '/game/ubut05.png']];
         for (var i = 0; i < this.ubcArray.length; i++) {
             this.ubcArray[i].ubutton.visible = true;
             this.ubutAni(i);
+            this.ubcArray[i].setButInfo(buinfo[0][0], buinfo[0][1]);
         }
     };
     RoomUI.prototype.retractUbutAin = function () {

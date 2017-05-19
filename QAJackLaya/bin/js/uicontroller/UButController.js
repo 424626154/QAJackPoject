@@ -10,6 +10,10 @@ var UButController = (function () {
         this.endY = 825;
         this.isOpen = true;
     }
+    UButController.prototype.setButInfo = function (name, img) {
+        this.ubutton.ublabel.text = name;
+        this.ubutton.ubimg.skin = img;
+    };
     return UButController;
 }());
 //# sourceMappingURL=UButController.js.map
